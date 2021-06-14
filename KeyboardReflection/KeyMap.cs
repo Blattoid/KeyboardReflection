@@ -8,9 +8,10 @@ namespace KeyboardReflection
     {
         public static Dictionary<LedName, KeyData> LookupTable = new Dictionary<LedName, KeyData>()
         {
-            //There was no easy way to make this. I had to manually measure the location of each key and the size if it had unusual dimensions.
-            //My keyboard is a Corsair STRAFE RGB MK-2 so the lookup table is based on that.
+            // There was no easy way to make this. I had to manually measure the location of each key and the size if it had unusual dimensions.
+            // My keyboard is a Corsair STRAFE RGB MK-2 so the lookup table is based on that.
 
+            // ROW 1
             { LedName.Escape,         new KeyData(38,86) },
             { LedName.F1,             new KeyData(232,86) },
             { LedName.F2,             new KeyData(347,86) },
@@ -20,7 +21,7 @@ namespace KeyboardReflection
             { LedName.F6,             new KeyData(884,86) },
             { LedName.F7,             new KeyData(1001,86) },
             { LedName.F8,             new KeyData(1116,86) },
-            //Unfortunately, the Corsair logo is not controllable through this library.
+            // Unfortunately, the Corsair logo is not controllable through this library.
             { LedName.F9,             new KeyData(1308,86) },
             { LedName.F10,            new KeyData(1422,86) },
             { LedName.F11,            new KeyData(1537,86) },
@@ -34,6 +35,7 @@ namespace KeyboardReflection
             { LedName.PlayPause,      new KeyData(2400,44, 1.4,0.6) },
             { LedName.NextTrack,      new KeyData(2510,44, 1.4,0.6) },
 
+            // ROW 2
             { LedName.Tilde,          new KeyData(37,427) },
             { LedName.One,            new KeyData(154,427) },
             { LedName.Two,            new KeyData(269,427) },
@@ -56,6 +58,7 @@ namespace KeyboardReflection
             { LedName.Multiply,       new KeyData(2407,427) },
             { LedName.Subtract,       new KeyData(2522,427) },
 
+            // ROW 3
             { LedName.Tab,            new KeyData(70,661, 1.8) },
             { LedName.Q,              new KeyData(211,661) },
             { LedName.W,              new KeyData(328,661) },
@@ -78,6 +81,7 @@ namespace KeyboardReflection
             { LedName.Numpad9,        new KeyData(2406,661) },
             { LedName.Add,            new KeyData(2522,735, 1.0,2.6) },
 
+            // ROW 4
             { LedName.CapsLock,       new KeyData(81,894, 1.8) },
             { LedName.A,              new KeyData(240,894) },
             { LedName.S,              new KeyData(355,894) },
@@ -95,6 +99,7 @@ namespace KeyboardReflection
             { LedName.Numpad5,        new KeyData(2290,894) },
             { LedName.Numpad6,        new KeyData(2406,894) },
 
+            // ROW 5
             { LedName.LeftShift,      new KeyData(50,1131, 1.4) },
             { LedName.NonUsBackslash, new KeyData(181,1131) },
             { LedName.Z,              new KeyData(297,1131) },
@@ -114,10 +119,11 @@ namespace KeyboardReflection
             { LedName.Numpad3,        new KeyData(2407,1131) },
             { LedName.NumpadEnter,    new KeyData(2522,1235, 1.0,2.6) },
 
+            // ROW 6
             { LedName.LeftControl,    new KeyData(65,1355, 1.8) },
             { LedName.LeftWindows,    new KeyData(209,1355) },
             { LedName.LeftAlt,        new KeyData(399,1355, 1.4) },
-            { LedName.Spacebar,       new KeyData(787,1355, 2) }, //The led is only a point on the spacebar, doesn't visually make sense to average the entire area of the bar.
+            { LedName.Spacebar,       new KeyData(787,1355, 2) }, // The led is only a point on the spacebar, doesn't visually make sense to average the entire area of the bar.
             { LedName.RightAlt,       new KeyData(1233,1355, 1.4) },
             { LedName.RightWindows,   new KeyData(1363,1355) },
             { LedName.Applications,   new KeyData(1479,1355) },
@@ -131,28 +137,46 @@ namespace KeyboardReflection
 
         public class KeyData
         {
-            public readonly int X, Y, width, height;
+            /// <summary>
+            /// Defines the center of where the key overlaps on the primary screen, with X and Y referring to their respective dimensions.
+            /// </summary>
+            public readonly int X, Y;
+            /// <summary>
+            /// The dimensions of the key, in pixels. Most keys will have the same size, but a few are bigger in one or both dimensions.
+            /// </summary>
+            public readonly int width, height;
+
             /// <summary>
             /// This class is a brief description of a keycap's position and size on a grid the size of the primary display.
             /// </summary>
-            /// <param name="X">The X coordinate of the center of the keycap.</param>
-            /// <param name="Y">The Y coordinate of the center of the keycap.</param>
-            /// <param name="width">Allows scaling the width of the keycap from the default of 1. For example, the backspace key is twice as wide than normal.</param>
-            /// <param name="height">Allows scaling the height of the keycap from the default of 1. For example, the numberpad enter is twice as tall than normal.</param>
+            /// <param name="X">The X coordinate of the center of the keycap, on a scale of 0-2560.</param>
+            /// <param name="Y">The Y coordinate of the center of the keycap, on a scale of 0-1440.</param>
+            /// <param name="width">Allows scaling the width of the keycap from the default of 1x. For example, the backspace key is twice as wide than normal.</param>
+            /// <param name="height">Allows scaling the height of the keycap from the default of 1x. For example, the numberpad enter is twice as tall than normal.</param>
             public KeyData(int X, int Y, double width = 1.0, double height = 1.0)
             {
-                //Scale the values to be correct for different resolution monitors
+                // Scale the values to be correct for different resolution monitors
                 this.X = (int)Map(X, 0, 2560, 0, Screen.PrimaryScreen.Bounds.Width);
                 this.Y = (int)Map(Y, 0, 1440, 0, Screen.PrimaryScreen.Bounds.Height);
                 this.width = (int)(Screen.PrimaryScreen.Bounds.Width / 2560.0 * width * 100);
-                this.height = (int)(Screen.PrimaryScreen.Bounds.Height / 1440.0 * height * 170);
+                this.height = (int)(Screen.PrimaryScreen.Bounds.Height / 1440.0 * height * 220);
             }
         }
 
-        //Port of the Arduino's map function because it's so darn useful
-        private static double Map(double value, double fromSource, double toSource, double fromTarget, double toTarget)
+        /// <summary>
+        /// This function facilitates conversion of a value between two different ranges.
+        /// It has been ported from the Arduino libraries because it's makes it very easy to scale values.
+        /// Note that the Value argument does not have to be within the bounds of the Source range.
+        /// </summary>
+        /// <param name="Value">The input value, exists along the Source range</param>
+        /// <param name="FromSource">Source range lower value. Corresponds to FromTarget</param>
+        /// <param name="ToSource">Source range upper value. Corresponds to ToTarget</param>
+        /// <param name="FromTarget">Target range lower value. Corresponds to FromSource</param>
+        /// <param name="ToTarget">Target range upper value. Corresponds to ToSource</param>
+        /// <returns>The corresponding value along the Target range</returns>
+        private static double Map(double Value, double FromSource, double ToSource, double FromTarget, double ToTarget)
         {
-            return (value - fromSource) / (toSource - fromSource) * (toTarget - fromTarget) + fromTarget;
+            return (Value - FromSource) / (ToSource - FromSource) * (ToTarget - FromTarget) + FromTarget;
         }
     }
 }

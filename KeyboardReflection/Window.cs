@@ -13,7 +13,7 @@ namespace KeyboardReflection
             UpdateEffectParameters();
         }
 
-        //Thread LedUpdateThread;
+        // Thread LedUpdateThread;
         private void startButton_Click(object sender, EventArgs e)
         {
             startButton.Text = "Started";
@@ -82,8 +82,8 @@ namespace KeyboardReflection
 
         private void Window_FormClosing(object sender, FormClosingEventArgs e)
         {
-            e.Cancel = true; //Don't actually quit
-            Hide(); //Instead just hide the form.
+            e.Cancel = true; // Don't actually quit,
+            Hide(); // instead just hide the form.
         }
     }
 }
