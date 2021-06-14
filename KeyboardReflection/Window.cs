@@ -19,7 +19,7 @@ namespace KeyboardReflection
             startButton.Text = "Started";
             startButton.Enabled = false;
 
-            Program.LedUpdateThread = new Thread(Program.LedUpdateThead_Task);
+            Program.LedUpdateThread = new Thread(Program.LedUpdateThread_Task);
             Program.LedUpdateThread.Start();
         }
 

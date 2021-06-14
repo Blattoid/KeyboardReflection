@@ -33,11 +33,8 @@ namespace KeyboardReflection
         static extern int ReleaseDC(IntPtr hwnd, IntPtr dc);
                 
         public static Thread LedUpdateThread;
-        public static void LedUpdateThead_Task()
+        public static void LedUpdateThread_Task()
         {
-            long[] LoadValues = new long[10];
-            byte i = 0;
-
             Led.Initialize();
             Led.SetColor(0, 0, 0);
 
